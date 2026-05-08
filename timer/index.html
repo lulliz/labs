@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link id="favicon" rel="shortcut icon" href="timer-logo-light.svg">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dark) document.documentElement.setAttribute('data-dark', '');
+    })();
+  </script>
+</head>
+
+<body>
+
+  <div class="orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+
+  <div class="card" id="card">
+    <svg class="card-arc" id="arcSvg" xmlns="http://www.w3.org/2000/svg">
+      <path class="arc-track" id="arcTrack" />
+      <path class="arc-fill" id="arcFill" />
+    </svg>
+    <div class="topbar">
+      <span class="logo">Timer</span>
+    </div>
+
+    <div class="presets">
+      <button class="preset" onclick="setPreset(1, event)">1</button>
+      <button class="preset" onclick="setPreset(3, event)">3</button>
+      <button class="preset active" onclick="setPreset(5, event)">5</button>
+      <button class="preset" onclick="setPreset(10, event)">10</button>
+      <button class="preset" onclick="setPreset(20, event)">20</button>
+    </div>
+
+    <div class="time-wrap" id="timeWrap">
+      <div class="time-block">
+        <div class="time-num" id="tn">05:00</div>
+        <div class="time-frac" id="tf">.00</div>
+      </div>
+    </div>
+
+    <div class="set-row">
+      <div class="su">
+        <div class="su-lbl">Minutes</div>
+        <div class="su-ctrl">
+          <button class="sb" onclick="chM(-1)">−</button>
+          <div class="sv" id="mV">05</div>
+          <button class="sb" onclick="chM(1)">+</button>
+        </div>
+      </div>
+      <div class="su">
+        <div class="su-lbl">Seconds</div>
+        <div class="su-ctrl">
+          <button class="sb" onclick="chS(-5)">−</button>
+          <div class="sv" id="sV">00</div>
+          <button class="sb" onclick="chS(5)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="act">
+      <button class="bp bps" id="mb" onclick="handleMain()">
+        <svg id="mb-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+          <polygon points="5,3 19,12 5,21" />
+        </svg>
+        <span id="mb-lbl">Start</span>
+      </button>
+      <button class="br" id="rb" onclick="handleReset()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+          <path d="M3 3v5h5" />
+        </svg>
+        <span class="br-txt">Reset</span>
+      </button>
+    </div>
+
+    <div class="laps" id="laps"></div>
+
+    <div class="sp" id="sp">
+      <div class="sp-head">
+        <div class="sp-dot"></div>
+        <span class="sp-ttl">Time Speed</span>
+      </div>
+      <div class="dr-row">
+        <span class="dr-lbl">Tick Rate</span>
+        <div class="dr-ctrls">
+          <button class="db" onclick="chD(-1)">−</button>
+          <div class="dv" id="dv">1.00×</div>
+          <button class="db" onclick="chD(1)">+</button>
+        </div>
+      </div>
+      <div class="dr-hint" id="dh">At 5:00 → actual time is the same</div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-head">
+        <span class="modal-ttl">Hotkeys</span>
+        <button class="modal-close" onclick="toggleHints()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="kbd-row"><kbd>Space</kbd> <span>Start / Pause</span></div>
+        <div class="kbd-row"><kbd>R</kbd> <span>Reset Timer</span></div>
+        <div class="kbd-row"><kbd>T</kbd> <span>Toggle Theme</span></div>
+        <div class="kbd-row"><kbd>F</kbd> <span>Fullscreen Mode</span></div>
+        <div class="kbd-row"><kbd>S</kbd> <span>Time Speed (Idle)</span></div>
+        <div class="kbd-row"><kbd>H</kbd> <span>Hints & Shortcuts</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-btn-wrap">
+    <button class="h-btn" id="hBtn" onclick="toggleHints()">
+      <kbd>H</kbd> Hints
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
