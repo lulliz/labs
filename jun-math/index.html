@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Математический мини-тест</title>
+  <meta name="description" content="Математический мини-тест для 3-4 классов.">
+  <meta name="keywords" content="математика, 3 класс, 4 класс, тест, умножение, деление, задачи, примеры">
+  <meta name="author" content="Lullis Roman">
+  <meta name="theme-color" content="#ea580c">
+  <link rel="shortcut icon" href="small-math-logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="bg-shape bg-shape-1"></div>
+  <div class="bg-shape bg-shape-2"></div>
+
+  <main class="app-shell">
+
+    <section class="welcome-screen card" id="welcomeScreen">
+      <div class="welcome-hero">
+        <div class="welcome-kicker">Математика · 3 класс</div>
+        <button class="reset-btn" id="resetBtn" type="button" aria-label="Сбросить прогресс">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+            <path d="M10 11v6M14 11v6" />
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+          </svg>
+        </button>
+      </div>
+      <div class="welcome-body">
+        <img class="welcome-image" src="math-logo.webp" alt="математика 3 класс">
+        <div class="difficulty-group">
+          <button class="diff-btn" data-level="easy" type="button">
+            <div class="diff-info">
+              <span class="diff-name">Просто</span>
+              <span class="diff-desc">умножение, сравнение, координаты</span>
+            </div>
+            <span class="diff-count">8</span>
+          </button>
+          <button class="diff-btn" data-level="medium" type="button">
+            <div class="diff-info">
+              <span class="diff-name">Средне</span>
+              <span class="diff-desc">+ порядок действий и углы</span>
+            </div>
+            <span class="diff-count">16</span>
+          </button>
+          <button class="diff-btn" data-level="hard" type="button">
+            <div class="diff-info">
+              <span class="diff-name">Сложно</span>
+              <span class="diff-desc">все типы, большие числа</span>
+            </div>
+            <span class="diff-count">24</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="app-view hidden" id="quizView">
+      <section class="quiz-stage card" id="quiz">
+        <div class="quiz-meta">
+          <div class="quiz-meta-row">
+            <div class="progress-top">
+              <span>Вопрос</span>
+              <strong id="progressText">1 / 16</strong>
+            </div>
+            <div class="timer-display" aria-live="polite">
+              <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="13" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"></circle>
+                <path d="M12 9.5v4l2.8 1.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path d="M9.5 2.8h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+              <strong id="timerText">0 сек</strong>
+            </div>
+          </div>
+          <p class="quiz-topic-badge" id="quizTopicBadge"></p>
+        </div>
+        <div class="question-slot" id="questionSlot"></div>
+      </section>
+
+      <section class="result card hidden" id="resultCard">
+        <div class="result-content">
+          <h2 id="resultTitle">Готово</h2>
+          <p id="resultText"></p>
+        </div>
+        <div class="result-stats">
+          <div class="stat-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            <strong id="resultScore">0 / 16</strong>
+            <span>верных ответов</span>
+          </div>
+          <div class="stat-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <strong id="resultTime">0 сек</strong>
+            <span>потрачено</span>
+          </div>
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-primary" id="backBtn" type="button">На главный экран</button>
+        </div>
+      </section>
+    </section>
+
+    <div class="app-toast hidden" id="toastEl" role="status" aria-live="polite"></div>
+  </main>
+
+  <template id="questionTemplate">
+    <article class="question">
+      <div class="question-content">
+        <h3 class="question-title"></h3>
+        <div class="question-body"></div>
+      </div>
+      <div class="feedback hidden"></div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
